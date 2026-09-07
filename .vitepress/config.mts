@@ -1,13 +1,13 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  base: '/serendib/',
+  base: '/serendib-docs/',
   title: "Serendib HAB Ground Station",
   description: "High-Altitude Balloon Ground Station & Cloud Architecture Documentation",
   cleanUrls: true,
   srcExclude: ['README.md'],
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/serendib/serendib-logo.png' }]
+    ['link', { rel: 'icon', type: 'image/png', href: '/serendib-docs/serendib-logo.png' }]
   ],
   markdown: {
     config(md) {
@@ -24,7 +24,7 @@ export default defineConfig({
   },
   themeConfig: {
     logo: '/serendib-logo.png',
-    siteTitle: 'Serendib HAB',
+    siteTitle: false,
     outline: {
       level: [2, 3],
       label: 'Table of Contents'
