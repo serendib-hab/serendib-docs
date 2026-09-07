@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  base: '/serendib/',
   title: "Serendib HAB Ground Station",
   description: "High-Altitude Balloon Ground Station & Cloud Architecture Documentation",
   cleanUrls: true,
