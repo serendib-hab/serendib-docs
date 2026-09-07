@@ -21,7 +21,7 @@ flowchart TB
     end
 
     subgraph ServiceTier ["Subscriber Microservices"]
-        DB_SUB["Central Storage Worker"]
+        DB_SUB["PostgreSQL Storage Worker"]
         REC_SUB["Global Consensus Engine"]
         WS_SUB["Public WebSocket Gateway"]
         BOT_SUB["Telegram Recovery Bot"]
@@ -51,4 +51,5 @@ Every downstream consumer runs as an independent subscriber process connected to
 | **Ingress Gateway** | [Station Sync Protocol](./station-sync.md) | Authenticates field stations, receives batched packet payloads, rate-limits requests, and publishes to the message broker. |
 | **Message Broker** | [NATS JetStream Message Broker](./message-broker.md) | High-performance NATS pub/sub topic routing with 72-hour stream persistence. |
 | **Global Reconciliation** | [Consensus Algorithm](./reconciliation.md) | Compares simultaneous multi-station packet copies to select the highest-SNR consensus frame. |
+| **Central Persistence** | [Database Schema & DDL](/specs/database-schema) | Writes incoming raw packets and reconciled consensus telemetry into a central [PostgreSQL](/guide/glossary#postgresql) database. |
 | **Downstream Services** | [Consumer Services](./downstream-services.md) | Public tracking map, OBS broadcast overlay, Telegram recovery bot, and scientific archiving. |

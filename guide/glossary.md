@@ -16,6 +16,11 @@ This page provides plain-language explanations, real-world analogies, and techni
 - **Analogy**: Writing your notes on a scratch pad first before neatly copying them into your permanent binder.
 - **Why We Use It**: In field environments where a laptop or Raspberry Pi might lose battery power suddenly, WAL mode ensures the database never gets corrupted. It also allows the map UI to read telemetry at the exact same millisecond the radio is writing new data.
 
+### PostgreSQL {#postgresql}
+- **Plain Explanation**: A robust, open-source relational database management system designed for multi-client concurrent transactions, complex analytical queries, and large-scale data persistence.
+- **Analogy**: A centralized university library with a master catalogue and multiple librarians serving hundreds of researchers at the same time, compared to a single field pocket notebook.
+- **Why We Use It**: In the Serendib Cloud Platform, PostgreSQL serves as the central data store. While field ground stations use embedded SQLite for lightweight offline autonomy, the cloud aggregates telemetry from all stations simultaneously into PostgreSQL for historical analysis, fleet consensus ledgers, and fast querying across millions of data points.
+
 ### High-Water Mark (Sync Cursor) {#high-water-mark}
 - **Plain Explanation**: A simple integer pointer that records the ID or timestamp of the last message successfully processed or synchronized.
 - **Analogy**: A bookmark in a novel that tracks which page you reached so you can resume immediately without re-reading from chapter one.
