@@ -1,2 +1,10 @@
+packages:
+  - "."
 allowBuilds:
   esbuild: true
+  workerd: true
+onlyBuiltDependencies:
+  - esbuild
+  - workerd
+  - "@cloudflare/workerd-linux-64"
+  - "@img/sharp-libvips-linux-64"
