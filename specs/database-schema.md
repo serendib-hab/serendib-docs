@@ -1,0 +1,67 @@
+# Database Schema Specification
+
+## 1. DDL Schema Definition (SQLite & PostgreSQL)
+
+```sql
+-- 1. Immutable Raw Ingest Table
+CREATE TABLE IF NOT EXISTS packets_raw (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    station_id TEXT NOT NULL,
+    timestamp_ns INTEGER NOT NULL,
+    raw_payload BLOB NOT NULL,
+    rssi_dbm INTEGER NOT NULL,
+    snr_db REAL NOT NULL,
+    crc_valid INTEGER NOT NULL CHECK (crc_valid IN (0, 1)),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_packets_raw_station_time 
+ON packets_raw (station_id, timestamp_ns);
+
+-- 2. Decoded Engineering Telemetry Table
+CREATE TABLE IF NOT EXISTS packets_decoded (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    raw_packet_id INTEGER NOT NULL REFERENCES packets_raw(id),
+    sequence_num INTEGER NOT NULL,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    altitude_m REAL NOT NULL,
+    ascent_rate_mps REAL,
+    pressure_hpa REAL,
+    temp_internal_c REAL,
+    temp_external_c REAL,
+    battery_v REAL,
+    door_intake_open INTEGER NOT NULL DEFAULT 0 CHECK (door_intake_open IN (0, 1)),
+    air_sampling_active INTEGER NOT NULL DEFAULT 0 CHECK (air_sampling_active IN (0, 1)),
+    gps_locked INTEGER NOT NULL DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_packets_decoded_seq 
+ON packets_decoded (sequence_num);
+
+CREATE INDEX IF NOT EXISTS idx_packets_decoded_alt 
+ON packets_decoded (altitude_m);
+
+-- 3. Command Audit Log Table
+CREATE TABLE IF NOT EXISTS commands_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp_ns INTEGER NOT NULL,
+    command_type TEXT NOT NULL,
+    parameters_json TEXT,
+    operator_id TEXT NOT NULL,
+    status TEXT NOT NULL, -- PENDING, TRANSMITTED, ACKNOWLEDGED, FAILED
+    signature_hmac TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 4. Multi-Station Reconciliation Consensus Ledger
+CREATE TABLE IF NOT EXISTS reconciliation_ledger (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sequence_num INTEGER NOT NULL UNIQUE,
+    best_raw_packet_id INTEGER NOT NULL REFERENCES packets_raw(id),
+    selection_score REAL NOT NULL,
+    station_count INTEGER NOT NULL,
+    reconciled_at_ns INTEGER NOT NULL
+);
+```
