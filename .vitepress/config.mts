@@ -6,6 +6,9 @@ export default defineConfig({
   description: "High-Altitude Balloon Ground Station & Cloud Architecture Documentation",
   cleanUrls: true,
   srcExclude: ['README.md'],
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: '/serendib/serendib-logo.png' }]
+  ],
   markdown: {
     config(md) {
       const defaultFence = md.renderer.rules.fence!
@@ -20,6 +23,7 @@ export default defineConfig({
     }
   },
   themeConfig: {
+    logo: '/serendib-logo.png',
     siteTitle: 'Serendib HAB',
     outline: {
       level: [2, 3],

@@ -5,6 +5,9 @@ hero:
   name: "Serendib HAB"
   text: "Ground Station & Cloud Platform"
   tagline: Autonomous, offline-first ground station pipeline and multi-station synchronization platform for high-altitude balloon missions.
+  image:
+    src: /serendib-logo.png
+    alt: Serendib HAB Mission Logo
   actions:
     - theme: brand
       text: Architecture Guide →
